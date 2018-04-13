@@ -12,9 +12,22 @@ app.use(express.static(__dirname + "/public"));
 io.on("connection", (socket) =>{
     console.log("New User connected");
 
+
+    socket.emit("newMessage", {
+        from: "mike",
+        text: "Hey, What's up my man ! testing it",
+        createdAt: Date.now()
+    });
+
+    socket.on("createdMessage", (message)=>{
+        console.log("Message Created",message);
+    });
+
+
     socket.on("disconnect", ()=>{
         console.log("Disconnected from Server");
     });
+
 });
 
 server.listen(port, ()=>{
