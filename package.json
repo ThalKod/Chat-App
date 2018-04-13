@@ -1,0 +1,18 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "Real Time WebChat Application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "9.5.0"
+  },
+  "author": "Thal Marcelin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
