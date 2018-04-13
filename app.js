@@ -12,6 +12,18 @@ app.use(express.static(__dirname + "/public"));
 io.on("connection", (socket) =>{
     console.log("New User connected");
 
+    socket.emit("newMessage", {
+        from: 'Admin',
+        text: "Welcome to the Chat Room",
+        createdAt: Date.now()
+    });
+
+    socket.broadcast.emit("newMessage", {
+        from: "Admin",
+        text: "New User Join",
+        createdAt: Date.now()
+    });
+
     socket.on("createdMessage", (message)=>{
         console.log("Message Created",message);
 
@@ -20,6 +32,12 @@ io.on("connection", (socket) =>{
             text: message.text,
             createdAt: Date.now()
         });
+
+        // socket.broadcast.emit("newMessage", {
+        //     rom: message.from,
+        //     text: message.text,
+        //     createdAt: Date.now()
+        // });
     });
 
 
