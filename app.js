@@ -12,15 +12,14 @@ app.use(express.static(__dirname + "/public"));
 io.on("connection", (socket) =>{
     console.log("New User connected");
 
-
-    socket.emit("newMessage", {
-        from: "mike",
-        text: "Hey, What's up my man ! testing it",
-        createdAt: Date.now()
-    });
-
     socket.on("createdMessage", (message)=>{
         console.log("Message Created",message);
+
+        io.emit("newMessage",{
+            from: message.from,
+            text: message.text,
+            createdAt: Date.now()
+        });
     });
 
 
