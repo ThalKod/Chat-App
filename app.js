@@ -17,11 +17,11 @@ io.on("connection", (socket) =>{
 
     socket.broadcast.emit("newMessage", generateMessage("Admin", "New User Join"));
 
-    socket.on("createdMessage", (message)=>{
+    socket.on("createdMessage", (message, callback)=>{
         console.log("Message Created",message);
 
         io.emit("newMessage",generateMessage(message.from , message.text));
-
+        callback("from the server");
         // socket.broadcast.emit("newMessage", {
         //     rom: message.from,
         //     text: message.text,
