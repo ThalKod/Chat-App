@@ -10,14 +10,24 @@ socket.on("disconnect", function(){
 });
 
 socket.on("newMessage", function(message){
-    console.log("New Message !", message);
-
     var formatedTime = moment(message.createdTime).format("h:mm a");
 
-    var li = jQuery("<li></li>");
-    li.text(message.from + " " + formatedTime + ": "+ message.text);
+    var template = jQuery("#message-template").html();
+    var html = Mustache.render(template, {
+        text: message.text,
+        from: message.from,
+        createdAt: formatedTime
+    });
 
-    jQuery("#messages").append(li);
+    jQuery("#messages").append(html);
+    // console.log("New Message !", message);
+
+    // var formatedTime = moment(message.createdTime).format("h:mm a");
+
+    // var li = jQuery("<li></li>");
+    // li.text(message.from + " " + formatedTime + ": "+ message.text);
+
+    // jQuery("#messages").append(li);
 });
 
 jQuery("#message-form").on("submit", function(e){
