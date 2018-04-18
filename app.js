@@ -4,6 +4,7 @@ const port      = process.env.PORT || 3000;
 const socketIO  = require("socket.io");
 
 const {generateMessage} = require("./utils/message");
+const validation = require("./utils/validation");
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
@@ -12,6 +13,14 @@ app.use(express.static(__dirname + "/public"));
 
 io.on("connection", (socket) =>{
     console.log("New User connected");
+
+    socket.on("join",(params, callback) =>{
+        if(!validation.isValidString(params.name) || !validation.isValidString(params.room)){
+            callback("Name and Room Name are Required");
+        }
+
+        callback();
+    });
 
     socket.emit("newMessage", generateMessage("Admin", "Welcome to the chat app"));
 
