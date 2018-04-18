@@ -36,9 +36,12 @@ io.on("connection", (socket) =>{
 
 
     socket.on("createdMessage", (message, callback)=>{
-        console.log("Message Created",message);
+        var user = users.getUser(socket.id);
 
-        io.emit("newMessage",generateMessage(message.from , message.text));
+        if(user && validation.isValidString(message.text)){
+            io.to(user.room).emit("newMessage",generateMessage(user.name , message.text));
+        }
+
         callback("from the server");
         // socket.broadcast.emit("newMessage", {
         //     rom: message.from,
