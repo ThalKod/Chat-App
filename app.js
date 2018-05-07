@@ -22,13 +22,15 @@ io.on("connection", (socket) =>{
             return callback("Name and Room Name are Required");
         }
 
-        if(users.getUserList(params.room).includes(params.name)){
+        if(users.getUserList(params.room).includes(params.name.trim())){
             return callback("Username not available");
         }
 
+        console.log(users.getUserList(params.room));
+
         socket.join(params.room);
         users.removeUser(socket.id);
-        users.addUser(socket.id, params.name,params.room);
+        users.addUser(socket.id, params.name.trim(),params.room);
 
         io.to(params.room).emit("updateUserList", users.getUserList(params.room));
         socket.emit("newMessage", generateMessage("Admin", "Welcome to the chat app"));
