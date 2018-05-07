@@ -22,15 +22,12 @@ io.on("connection", (socket) =>{
             return callback("Name and Room Name are Required");
         }
 
-        if(users.getUserList(params.room).includes(params.name.trim())){
-            return callback("Username not available");
-        }
-
-        console.log(users.getUserList(params.room));
 
         socket.join(params.room);
         users.removeUser(socket.id);
-        users.addUser(socket.id, params.name.trim(),params.room);
+        if(!users.addUser(socket.id, params.name.trim().replace(/ +(?= )/g,''),params.room)){
+            return callback("Username not available");
+        }
 
         io.to(params.room).emit("updateUserList", users.getUserList(params.room));
         socket.emit("newMessage", generateMessage("Admin", "Welcome to the chat app"));
@@ -71,4 +68,17 @@ io.on("connection", (socket) =>{
 server.listen(port, ()=>{
     console.log("Listening on port " + port);
 });
+
+
+function checkValidName(params){
+    var nameArray = users.get
+    if(users.getUserList(params.room).includes(params.name.trim())){
+        return false;
+    }
+    if(users.getUserList(params.room).includes(params.name.trim().toLowerCase())){
+        return false;
+    }
+
+    return true;
+}
 

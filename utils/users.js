@@ -10,6 +10,9 @@ class Users {
             name,
             room
         }
+        if(!this.checkValidName(name,room)){
+            return false;
+        }
         this.usersArray.push(user);
         return user;
     }
@@ -32,6 +35,17 @@ class Users {
                 return this.usersArray[i];
             }
         }
+    }
+
+    checkValidName(name, room){
+        var listOnlineUser = this.getUserList(room);
+        for(var i = 0; i < listOnlineUser.length; i++){
+            if(listOnlineUser[i].toLowerCase() === name.toLowerCase()){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     getUserList(room){
